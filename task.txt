@@ -1,0 +1,5 @@
+Your task:
+
+Write a smart contract for an event management system.
+
+Someone can create an event and users can join this event only if they have an NFT.
