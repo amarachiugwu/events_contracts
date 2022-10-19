@@ -21,23 +21,24 @@ contract EventTicket is ERC721, Ownable {
         return "ipfs://bafybeiduad2mphfd2kvhjavwrqvrohluqna24xipcqwtzxewtykmhqiqbi/";
     }
 
-    function safeMint() public payable{
+    function safeMint(address addr) public payable returns(uint){
         require(msg.value >= mintPrice, "Not enough ETH");
         require(_tokenIdCounter.current() < maxSupply, "No more tickets left");
         uint256 tokenId = _tokenIdCounter.current();
         _tokenIdCounter.increment();
-        _safeMint(msg.sender, tokenId);
+        _safeMint(addr, tokenId);
+        return tokenId;
     }
 
-    function editMintPrice(uint _mintPrice) public onlyOwner {
+    function editMintPrice(uint _mintPrice) external onlyOwner {
         maxSupply = _mintPrice;
     }
 
-    function editmaxSupply(uint _maxSupply) public onlyOwner {
+    function editmaxSupply(uint _maxSupply) external onlyOwner {
         maxSupply = _maxSupply;
     }
 
-    function withdraw() public onlyOwner {
+    function withdraw() external onlyOwner {
         uint balance = address(this).balance;
         require(balance > 0, "No ETH to withdraw");
         payable(msg.sender).transfer(balance);
